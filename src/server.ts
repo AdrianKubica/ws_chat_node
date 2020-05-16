@@ -4,6 +4,7 @@ import hbs from 'hbs'
 import router from './routers/chat'
 
 const app = express()
+
 const port = process.env.PORT
 const publicDir = path.join(__dirname, '../public')
 const viewsDir = 'templates/views'
@@ -14,6 +15,7 @@ app.set('views', viewsDir)
 hbs.registerPartials(partialsDir)
 
 app.use(express.static(publicDir, { extensions: ["html"] }))
+app.use(express.json())
 app.use(router)
 
 app.listen(port, () => {
