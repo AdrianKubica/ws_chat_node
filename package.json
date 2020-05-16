@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "env-cmd -f ./config/dev.env ts-node-dev --respawn --transpileOnly ./src/server.ts"
+    "start": "node dist/src/server.js",
+    "dev": "env-cmd -f ./config/dev.env ts-node-dev --respawn --transpileOnly ./src/server.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
