@@ -15,6 +15,8 @@ const redBox = document.querySelector('.red-box')
 socket.on('message', (message) => {
     console.log(message)
     redBox.style.backgroundColor = `rgb(${parseInt(Math.random() * 255)}, ${parseInt(Math.random() * 255)}, ${parseInt(Math.random() * 255)})`
+    const marginLeft = parseInt(getComputedStyle(redBox).marginLeft)
+    redBox.style.marginLeft = `${marginLeft + 5}px`
 })
 
 document.querySelector('form').addEventListener('submit', (evt) => {
