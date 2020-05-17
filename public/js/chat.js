@@ -8,6 +8,23 @@ const $messages = document.querySelector('#messages')
 const $locationButton = document.querySelector('#send-location')
 const $redBox = document.querySelector('.red-box')
 
+const autoscroll = () => {
+    const $newMessage = $messages.lastElementChild
+    const newMessageStyles = getComputedStyle($newMessage)
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+    const newMessageHeight = $newMessage.offsetHeight + newMessageMargin
+
+    const visibleHeight = $messages.offsetHeight
+
+    const containerHeight = $messages.scrollHeight
+
+    const scrollOffset = $messages.scrollTop + visibleHeight
+
+    if (containerHeight - newMessageHeight <= scrollOffset) {
+        $messages.scrollTop = $messages.scrollHeight
+    }
+}
+
 const { username, room} = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
 const moveRedBox = () => {
@@ -31,6 +48,7 @@ socket.on('message', (message) => {
         </div>
     `
     $messages.insertAdjacentHTML('beforeend', div)
+    autoscroll()
     moveRedBox()
 })
 
@@ -45,6 +63,7 @@ socket.on('locationMessage', (message) => {
     </div>
 `
     $messages.insertAdjacentHTML('beforeend', div)
+    autoscroll()
     moveRedBox()
 })
 
