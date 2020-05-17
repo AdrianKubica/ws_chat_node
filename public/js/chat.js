@@ -48,6 +48,11 @@ socket.on('locationMessage', (message) => {
     moveRedBox()
 })
 
+socket.on('roomData', ({ room, users }) => {
+    console.log(room)
+    console.log(users)
+})
+
 $messageForm.addEventListener('submit', (evt) => {
     evt.preventDefault()
     $messageFormButton.setAttribute('disabled', 'disabled')
