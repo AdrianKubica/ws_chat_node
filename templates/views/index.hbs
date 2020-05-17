@@ -12,10 +12,13 @@
         <p>
             <img class="profile" src="/img/profile-pic.jpg">
         </p>
-        <form>
-            <input id="msg" type="text">
-            <button>Submit</button>
+        <form id="message-form">
+            <input id="message" name="message" type="text" placeholder="Message">
+            <button>Send</button>
         </form>
+        <p>
+            <button id="send-location">Send location</button>
+        </p>
         <div class="red-box">Red Box</div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
