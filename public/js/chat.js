@@ -8,6 +8,8 @@ const $messages = document.querySelector('#messages')
 const $locationButton = document.querySelector('#send-location')
 const $redBox = document.querySelector('.red-box')
 
+const { username, room} = Qs.parse(location.search, { ignoreQueryPrefix: true })
+
 const moveRedBox = () => {
     const red = parseInt(Math.random() * 255)
     const green = parseInt(Math.random() * 255)
@@ -22,7 +24,7 @@ socket.on('message', (message) => {
     const div = `
         <div class="message">
             <p>
-                <span class="message__name">Some User Name</span>
+                <span class="message__name">${message.username}</span>
                 <span class="message__meta">${moment(message.createdAt).format('HH:mm:ss')}</span>
                 <p>${message.text}</p
             </p>
@@ -36,7 +38,7 @@ socket.on('locationMessage', (message) => {
     const div = `
     <div class="message">
         <p>
-            <span class="message__name">Some User Name</span>
+            <span class="message__name">${message.username}</span>
             <span class="message__meta">${moment(message.createdAt).format('HH:mm:ss')}</span>
             <p><a href=${message.url} target='_blank'>My current location</a></p></p
         </p>
@@ -76,4 +78,11 @@ $locationButton.addEventListener('click', () => {
             console.log('Location shared')
         })
     })
+})
+
+socket.emit('join', { username, room }, (error) => {
+    if (error) {
+        alert(error)
+        location.href = '/'
+    }
 })

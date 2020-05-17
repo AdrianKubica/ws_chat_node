@@ -8,6 +8,12 @@ router.get('/', async (req, res) => {
     })
 })
 
+router.get('/chat', async (req, res) => {
+    res.render('chat', {
+        name: 'Chat App'
+    })
+})
+
 router.get('*', async (req, res) => {
     res.render('404', {
         name: 'Chat App'

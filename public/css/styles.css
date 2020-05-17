@@ -17,7 +17,7 @@
     border-radius: 10px;
 }
 
-a#chat__menu {
+a.chat__menu {
     color: white !important;
     text-decoration: none;
 }
