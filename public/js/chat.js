@@ -3,6 +3,7 @@ const socket = io()
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
+const $messages = document.querySelector('#messages')
 
 const $locationButton = document.querySelector('#send-location')
 const $redBox = document.querySelector('.red-box')
@@ -11,14 +12,37 @@ const moveRedBox = () => {
     const red = parseInt(Math.random() * 255)
     const green = parseInt(Math.random() * 255)
     const blue = parseInt(Math.random() * 255)
-    const marginLeft = parseInt(getComputedStyle($redBox).marginLeft)
+    const marginTop = parseInt(getComputedStyle($redBox).marginTop)
 
     $redBox.style.backgroundColor = `rgb(${red},${green},${blue})`
-    $redBox.style.marginLeft = `${marginLeft + 5}px`
+    $redBox.style.marginTop = `${marginTop + 5}px`
 }
 
 socket.on('message', (message) => {
-    console.log(message)
+    const div = `
+        <div class="message">
+            <p>
+                <span class="message__name">Some User Name</span>
+                <span class="message__meta">${moment(message.createdAt).format('HH:mm:ss')}</span>
+                <p>${message.text}</p
+            </p>
+        </div>
+    `
+    $messages.insertAdjacentHTML('beforeend', div)
+    moveRedBox()
+})
+
+socket.on('locationMessage', (message) => {
+    const div = `
+    <div class="message">
+        <p>
+            <span class="message__name">Some User Name</span>
+            <span class="message__meta">${moment(message.createdAt).format('HH:mm:ss')}</span>
+            <p><a href=${message.url} target='_blank'>My current location</a></p></p
+        </p>
+    </div>
+`
+    $messages.insertAdjacentHTML('beforeend', div)
     moveRedBox()
 })
 

@@ -2,6 +2,7 @@ import app from './app'
 import http from 'http'
 import socketio, { Socket } from 'socket.io'
 import Filter from 'bad-words'
+import { generateMessage, generateLocationMessage } from './utils/messages'
 
 const port = process.env.PORT
 const server = http.createServer(app)
@@ -15,7 +16,7 @@ const communication = (socket: Socket) => {
             return callback('Profanity is not allowed')
         }
 
-        io.emit('message', message)
+        io.emit('message', generateMessage(message))
         callback()
     })
 }
@@ -23,24 +24,24 @@ const communication = (socket: Socket) => {
 io.on('connection', (socket) => {
     console.log('New websocket connection')
 
-    socket.emit('message', 'Welcome in my Chat App')
+    socket.emit('message', generateMessage('Welcome in my Chat App'))
 
-    socket.broadcast.emit('message', 'A new user has joined')
+    socket.broadcast.emit('message', generateMessage('A new user has joined'))
 
     communication(socket)
 
     socket.on('disconnect', () => {
-        io.emit('message', 'User has left')
+        io.emit('message', generateMessage('User has left'))
     })
 
     socket.on('sendLocation', (location, callback) => {
-        io.emit('message', `Location: https://google.com/maps?q=${location.latitude},${location.longitude}`)
+        io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${location.latitude},${location.longitude}`))
         callback()
     })
 })
 
 app.post('/chat', (req, res) => {
-    io.emit('message', req.body)
+    io.emit('message', generateMessage(req.body.message))
     res.send({ message: 'Emitted successfully' })
 })
 
